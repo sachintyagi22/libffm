@@ -632,7 +632,7 @@ ffm_problem* ffm_read_problem(char const *path)
         {
             char *field_char = strtok(nullptr,":");
             char *idx_char = strtok(nullptr,":");
-            // char *value_char = strtok(nullptr," \t");
+            char *value_char = strtok(nullptr," \t");
             if(field_char == nullptr || *field_char == '\n')
                 break;
 
@@ -717,7 +717,7 @@ int ffm_read_problem_to_disk(char const *txt_path, char const *bin_path)
         {
             char *field_char = strtok(nullptr,":");
             char *idx_char = strtok(nullptr,":");
-            // char *value_char = strtok(nullptr," \t");
+            char *value_char = strtok(nullptr," \t");
             if(field_char == nullptr || *field_char == '\n')
                 break;
 
