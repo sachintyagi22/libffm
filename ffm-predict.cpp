@@ -70,7 +70,7 @@ void predict(string test_path, string model_path, string output_path)
         {
             char *field_char = strtok(nullptr,":");
             char *idx_char = strtok(nullptr,":");
-            char *value_char = strtok(nullptr," \t");
+            // char *value_char = strtok(nullptr," \t");
             if(field_char == nullptr || *field_char == '\n')
                 break;
 
