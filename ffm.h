@@ -15,11 +15,13 @@ typedef int ffm_int;
 typedef char ffm_char;
 typedef long long ffm_long;
 
-struct ffm_node
+typedef unsigned int ffm_node
+
+/** struct ffm_node
 {
     ffm_char f;
     ffm_int j;
-};
+};**/
 
 struct ffm_problem
 {

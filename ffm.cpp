@@ -51,16 +51,16 @@ inline ffm_float wTx(
 
     for(ffm_node *N1 = begin; N1 != end; N1++)
     {
-        ffm_int j1 = N1->j;
-        ffm_int f1 = (ffm_int) N1->f;
+        ffm_int j1 = (N1 & 0x00FFFFFF);
+        ffm_int f1 = (N1 >> 24);
         ffm_float v1 = 1.0f;
         if(j1 >= model.n || f1 >= model.m)
             continue;
 
         for(ffm_node *N2 = N1+1; N2 != end; N2++)
         {
-            ffm_int j2 = N2->j;
-            ffm_int f2 = (ffm_int) N2->f;
+            ffm_int j2 = (N2 & 0x00FFFFFF);
+            ffm_int f2 = (N2 >> 24)
             ffm_float v2 = 1.0f;
             
             if(f1 == f2)
@@ -643,8 +643,9 @@ ffm_problem* ffm_read_problem(char const *path)
             prob->m = max(prob->m, field+1);
             prob->n = max(prob->n, idx+1);
             
-            prob->X[p].f = field;
-            prob->X[p].j = idx;
+            
+            prob->X[p] = 0 | field << 24 | idx;	
+            // prob->X[p] = idx;
             // prob->X[p].v = value;
         }
         prob->P[i+1] = p;
@@ -720,16 +721,16 @@ int ffm_read_problem_to_disk(char const *txt_path, char const *bin_path)
             char *value_char = strtok(nullptr," \t");
             if(field_char == nullptr || *field_char == '\n')
                 break;
-
-            ffm_node N;
-            N.f = (ffm_char) atoi(field_char);
-            N.j = atoi(idx_char);
+			ffm_char f = (ffm_char) atoi(field_char);
+			ffm_int j = atoi(idx_char);
+            ffm_node N = 0 | f << 24 | j;	
+            
             // N.v = atof(value_char);
 
             X.push_back(N);
 
-            m = max(m, N.f+1);
-            n = max(n, N.j+1);
+            m = max(m, f+1);
+            n = max(n, j+1);
 
             scale += 1.0f;
         }
