@@ -15,7 +15,7 @@ typedef int ffm_int;
 typedef char ffm_char;
 typedef long long ffm_long;
 
-typedef unsigned int ffm_node
+typedef unsigned int ffm_node;
 
 /** struct ffm_node
 {

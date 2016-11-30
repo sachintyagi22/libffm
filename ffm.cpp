@@ -51,16 +51,16 @@ inline ffm_float wTx(
 
     for(ffm_node *N1 = begin; N1 != end; N1++)
     {
-        ffm_int j1 = (N1 & 0x00FFFFFF);
-        ffm_int f1 = (N1 >> 24);
+        ffm_int j1 = (*N1 & 0x00FFFFFF);
+        ffm_int f1 = (*N1 >> 24);
         ffm_float v1 = 1.0f;
         if(j1 >= model.n || f1 >= model.m)
             continue;
 
         for(ffm_node *N2 = N1+1; N2 != end; N2++)
         {
-            ffm_int j2 = (N2 & 0x00FFFFFF);
-            ffm_int f2 = (N2 >> 24)
+            ffm_int j2 = (*N2 & 0x00FFFFFF);
+            ffm_int f2 = (*N2 >> 24);
             ffm_float v2 = 1.0f;
             
             if(f1 == f2)
@@ -931,16 +931,16 @@ ffm_float ffm_predict(ffm_node *begin, ffm_node *end, ffm_model *model)
     ffm_float t = 0;
     for(ffm_node *N1 = begin; N1 != end; N1++)
     {
-        ffm_int j1 = N1->j;
-        ffm_int f1 = N1->f;
+        ffm_int j1 = (*N1 & 0x00FFFFFF);
+        ffm_int f1 = (*N1 >> 24);
         ffm_float v1 = 1.0f;
         if(j1 >= model->n || f1 >= model->m)
             continue;
 
         for(ffm_node *N2 = N1+1; N2 != end; N2++)
         {
-            ffm_int j2 = N2->j;
-            ffm_int f2 = N2->f;
+            ffm_int j2 = (*N2 & 0x00FFFFFF);
+            ffm_int f2 = (*N2 >> 24);
             ffm_float v2 = 1.0f;
             
             if(f1 == f2)

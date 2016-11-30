@@ -75,9 +75,10 @@ void predict(string test_path, string model_path, string output_path)
             if(field_char == nullptr || *field_char == '\n')
                 break;
 
-            ffm_node N;
-            N.f = (ffm_char) atoi(field_char);
-            N.j = atoi(idx_char);
+            ffm_char f = (ffm_char) atoi(field_char);
+			ffm_int j = atoi(idx_char);
+            
+            ffm_node N = 0 | f << 24 | j;	
             // N.v = atof(value_char);
 
             x.push_back(N);
