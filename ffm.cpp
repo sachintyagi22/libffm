@@ -220,7 +220,7 @@ vector<ffm_float> normalize(ffm_problem &prob)
     {
         ffm_float norm = 0;
         for(ffm_long p = prob.P[i]; p < prob.P[i+1]; p++)
-            norm += prob.X[p].v*prob.X[p].v;
+            norm += 1.0f;
         R[i] = 1/norm;
     }
 
@@ -623,7 +623,7 @@ ffm_problem* ffm_read_problem(char const *path)
     prob->P[0] = 0;
     for(ffm_int i = 0; fgets(line, kMaxLineSize, f) != nullptr; i++)
     {
-		strtok(line.data(), " \t");
+		strtok(line, " \t");
         char *y_char = strtok(nullptr, " \t");
         ffm_float y = (atoi(y_char)>0)? 1.0f : -1.0f;
         prob->Y[i] = y;
@@ -632,7 +632,7 @@ ffm_problem* ffm_read_problem(char const *path)
         {
             char *field_char = strtok(nullptr,":");
             char *idx_char = strtok(nullptr,":");
-            char *value_char = strtok(nullptr," \t");
+            // char *value_char = strtok(nullptr," \t");
             if(field_char == nullptr || *field_char == '\n')
                 break;
 
@@ -717,7 +717,7 @@ int ffm_read_problem_to_disk(char const *txt_path, char const *bin_path)
         {
             char *field_char = strtok(nullptr,":");
             char *idx_char = strtok(nullptr,":");
-            char *value_char = strtok(nullptr," \t");
+            // char *value_char = strtok(nullptr," \t");
             if(field_char == nullptr || *field_char == '\n')
                 break;
 
@@ -731,7 +731,7 @@ int ffm_read_problem_to_disk(char const *txt_path, char const *bin_path)
             m = max(m, N.f+1);
             n = max(n, N.j+1);
 
-            scale += N.v*N.v;
+            scale += 1.0f;
         }
         scale = 1/scale;
 
@@ -920,7 +920,7 @@ ffm_float ffm_predict(ffm_node *begin, ffm_node *end, ffm_model *model)
     {
         r = 0;
         for(ffm_node *N = begin; N != end; N++)
-            r += N->v*N->v; 
+            r += 1.0f; 
         r = 1/r;
     }
 
@@ -932,7 +932,7 @@ ffm_float ffm_predict(ffm_node *begin, ffm_node *end, ffm_model *model)
     {
         ffm_int j1 = N1->j;
         ffm_int f1 = N1->f;
-        ffm_float v1 = N1->v;
+        ffm_float v1 = 1.0f;
         if(j1 >= model->n || f1 >= model->m)
             continue;
 
@@ -940,7 +940,7 @@ ffm_float ffm_predict(ffm_node *begin, ffm_node *end, ffm_model *model)
         {
             ffm_int j2 = N2->j;
             ffm_int f2 = N2->f;
-            ffm_float v2 = N2->v;
+            ffm_float v2 = 1.0f;
             
             if(f1 == f2)
 				continue;
