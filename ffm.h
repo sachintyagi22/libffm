@@ -12,13 +12,13 @@ namespace ffm
 typedef float ffm_float;
 typedef double ffm_double;
 typedef int ffm_int;
+typedef char ffm_char;
 typedef long long ffm_long;
 
 struct ffm_node
 {
-    ffm_int f;
+    ffm_char f;
     ffm_int j;
-    ffm_float v;
 };
 
 struct ffm_problem

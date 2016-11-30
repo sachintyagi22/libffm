@@ -52,16 +52,20 @@ inline ffm_float wTx(
     for(ffm_node *N1 = begin; N1 != end; N1++)
     {
         ffm_int j1 = N1->j;
-        ffm_int f1 = N1->f;
-        ffm_float v1 = N1->v;
+        ffm_int f1 = (ffm_int) N1->f;
+        ffm_float v1 = 1.0f;
         if(j1 >= model.n || f1 >= model.m)
             continue;
 
         for(ffm_node *N2 = N1+1; N2 != end; N2++)
         {
             ffm_int j2 = N2->j;
-            ffm_int f2 = N2->f;
-            ffm_float v2 = N2->v;
+            ffm_int f2 = (ffm_int) N2->f;
+            ffm_float v2 = 1.0f;
+            
+            if(f1 == f2)
+				continue;
+			
             if(j2 >= model.n || f2 >= model.m)
                 continue;
 
@@ -619,7 +623,8 @@ ffm_problem* ffm_read_problem(char const *path)
     prob->P[0] = 0;
     for(ffm_int i = 0; fgets(line, kMaxLineSize, f) != nullptr; i++)
     {
-        char *y_char = strtok(line, " \t");
+		strtok(line.data(), " \t");
+        char *y_char = strtok(nullptr, " \t");
         ffm_float y = (atoi(y_char)>0)? 1.0f : -1.0f;
         prob->Y[i] = y;
 
@@ -631,16 +636,16 @@ ffm_problem* ffm_read_problem(char const *path)
             if(field_char == nullptr || *field_char == '\n')
                 break;
 
-            ffm_int field = atoi(field_char);
+            ffm_char field = (ffm_char) atoi(field_char);
             ffm_int idx = atoi(idx_char);
-            ffm_float value = atof(value_char);
+            // ffm_float value = atof(value_char);
 
             prob->m = max(prob->m, field+1);
             prob->n = max(prob->n, idx+1);
             
             prob->X[p].f = field;
             prob->X[p].j = idx;
-            prob->X[p].v = value;
+            // prob->X[p].v = value;
         }
         prob->P[i+1] = p;
     }
@@ -701,7 +706,9 @@ int ffm_read_problem_to_disk(char const *txt_path, char const *bin_path)
 
     while(fgets(line.data(), kMaxLineSize, f_txt))
     {
-        char *y_char = strtok(line.data(), " \t");
+        // char *y_char = strtok(line.data(), " \t");
+        strtok(line.data(), " \t");
+        char *y_char = strtok(nullptr, " \t");
 
         ffm_float y = (atoi(y_char)>0)? 1.0f : -1.0f;
 
@@ -715,9 +722,9 @@ int ffm_read_problem_to_disk(char const *txt_path, char const *bin_path)
                 break;
 
             ffm_node N;
-            N.f = atoi(field_char);
+            N.f = (ffm_char) atoi(field_char);
             N.j = atoi(idx_char);
-            N.v = atof(value_char);
+            // N.v = atof(value_char);
 
             X.push_back(N);
 
@@ -934,6 +941,10 @@ ffm_float ffm_predict(ffm_node *begin, ffm_node *end, ffm_model *model)
             ffm_int j2 = N2->j;
             ffm_int f2 = N2->f;
             ffm_float v2 = N2->v;
+            
+            if(f1 == f2)
+				continue;
+			
             if(j2 >= model->n || f2 >= model->m)
                 continue;
 
