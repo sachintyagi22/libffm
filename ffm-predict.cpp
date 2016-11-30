@@ -75,9 +75,9 @@ void predict(string test_path, string model_path, string output_path)
                 break;
 
             ffm_node N;
-            N.f = atoi(field_char);
+            N.f = (ffm_char) atoi(field_char);
             N.j = atoi(idx_char);
-            N.v = atof(value_char);
+            // N.v = atof(value_char);
 
             x.push_back(N);
         }
